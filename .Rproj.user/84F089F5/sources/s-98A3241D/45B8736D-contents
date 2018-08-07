@@ -1,0 +1,49 @@
+Data <- read.csv("~/Desktop/Classes/MARI 301/oxygenlight(2).csv", header=TRUE)
+Data
+summary(Data)
+head(Data)
+attach(Data)
+hist(O2.flux)
+#making your averages, starting with the quadrats with no ulva (designated as "nu")
+nu.withcockles <-O2.flux[Data$Treatment=="blue"]
+nu.withoutcockles<-O2.flux[Data$Treatment=="black"]
+nu.cocklemeans=c(mean(nu.withoutcockles), mean(nu.withcockles))
+#Drawing the graph and creating an object that is the middle point on your graph
+#("mp") --- this is where you will build your error bars
+mp <- barplot(nu.cocklemeans, axes = FALSE, axisnames = FALSE, ylim = c(-.5,2.5),main = "Light chambers, no ulva", xlab = "# cockles", ylab = "Oxygen flux (millimoles)")
+axis(1, labels = c("0","300"), at = mp)
+axis(2, at = seq(-1.5, 2.5, by = 0.5))
+box()
+
+#Calculating your standard errors and putting them on the plot
+library(plotrix)
+std.error(nu.withcockles)
+std.error(nu.withoutcockles)
+SE<-matrix(c(std.error(nu.withoutcockles), std.error(nu.withcockles)), 2)
+segments(mp, nu.cocklemeans -SE, mp, nu.cocklemeans + SE, lwd =2)
+segments(mp -0.1, nu.cocklemeans-SE, mp+0.1, nu.cocklemeans-SE, lwd =2)
+segments(mp-0.1, nu.cocklemeans+SE, mp+0.1, nu.cocklemeans +SE, lwd =2)
+
+library(car)
+leveneTest(O2.flux, Treatment)
+shapiro.test(O2.flux)
+
+model1 <- lm(O2.flux ~ Treatment)
+summary(model1)
+
+Data2 <- read.csv("~/Desktop/Classes/MARI 301/oxygenlight2.csv", header=TRUE)
+Data2
+summary(Data2)
+head(Data2)
+attach(Data2)
+#cockles<-read.csv("~/Desktop/Classes/MARI 301/oxygenlight2.csv", header=TRUE)
+#ulva<-read.csv("~/Desktop/Classes/MARI 301/oxygenlight2.csv", header=TRUE)
+
+model2<-lm(O2.flux~Cockles + Ulva + Cockles:Ulva)
+Anova(model2, type = "III")
+
+model3<-lm(O2.flux~Cockles+Ulva)
+Anova(model3, type = "II")
+
+plot(model3)
+

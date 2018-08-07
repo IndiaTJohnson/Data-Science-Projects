@@ -1,0 +1,326 @@
+Nutrients <- read.csv("~/Desktop/Classes/MARI 301/MARI301.nutrients.2017.csv", header=TRUE)
+OxygenLight <- read.csv("~/Desktop/Classes/MARI 301/oxygenlight(2).csv", header=TRUE)
+Macrofauna <- read.csv("~/Desktop/Classes/MARI 301/macrofauna.csv", header=TRUE)
+O2FluxRaw <- read.csv("~/Desktop/Classes/MARI 301/301.O2flux.2017.csv", header=TRUE)
+StartMacrofauna <- read.csv("~/Desktop/Classes/MARI 301/Start Transpose Macrofauna.csv", header=TRUE, stringsAsFactors = FALSE)
+EndMacrofauna <- read.csv("~/Desktop/Classes/MARI 301/End Transpose Macrofauna.csv", header=TRUE, stringsAsFactors = FALSE)
+
+O2FluxRaw[is.na(O2FluxRaw)] <- 0
+
+
+#StartRichness
+StartRichness <- specnumber(StartMacrofauna[,-2])
+EndRichness <- specnumber(EndMacrofauna[,-2])
+
+
+#Diversity
+StartDiversity <- diversity(StartMacrofauna[,-2])
+EndDiversity <- diversity(EndMacrofauna[,-2])
+
+
+#StartDiversity[is.na(StartDiversity)] <- 0
+
+
+#StartRichness by treatment
+#initial
+#final
+
+black.StartRichness=StartRichness[treatment=="black"]
+black.StartRichness
+blue.StartRichness=StartRichness[treatment=="blue"]
+blue.StartRichness
+green.StartRichness=StartRichness[treatment=="green"]
+green.StartRichness
+yellow.StartRichness=StartRichness[treatment=="yellow"]
+yellow.StartRichness
+
+
+black.EndRichness=EndRichness[treatment=="black"]
+black.EndRichness
+blue.EndRichness=EndRichness[treatment=="blue"]
+blue.EndRichness
+green.EndRichness=EndRichness[treatment=="green"]
+green.EndRichness
+yellow.EndRichness=EndRichness[treatment=="yellow"]
+yellow.EndRichness
+
+#diversity by treatment
+#initial
+#final
+
+black.StartDiversity=StartDiversity[treatment=="black"]
+black.StartDiversity
+blue.StartDiversity=StartDiversity[treatment=="blue"]
+blue.StartDiversity
+green.StartDiversity=StartDiversity[treatment=="green"]
+green.StartDiversity
+yellow.StartDiversity=StartDiversity[treatment=="yellow"]
+yellow.StartDiversity
+
+
+black.EndDiversity=EndDiversity[treatment=="black"]
+black.EndDiversity
+blue.EndDiversity=EndDiversity[treatment=="blue"]
+blue.EndDiversity
+green.EndDiversity=EndDiversity[treatment=="green"]
+green.EndDiversity
+yellow.EndDiversity=EndDiversity[treatment=="yellow"]
+yellow.EndDiversity
+
+
+#P by treatment
+#initial
+#final
+
+
+#use nutrient file, get all initial phosphorus numbers for black
+black.initialPhosphate=Nutrients[grep("Black_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+black.finalPhosphate=Nutrients[grep("Black_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+blue.initialPhosphate= Nutrients[grep("Blue_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+blue.finalPhosphate=Nutrients[grep("Blue_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+green.initialPhosphate= Nutrients[grep("Green_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+green.finalPhosphate= Nutrients[grep("Green_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+yellow.initialPhosphate= Nutrients[grep("Yellow_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+yellow.finalPhosphate= Nutrients[grep("Yellow_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+
+#use nutrient file, get all final phosphorus numbers for black
+
+#NO by treatment
+#initial
+#final
+black.initialNO= Nutrients[grep("Black_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..2"]
+black.finalNO=Nutrients[grep("Black_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..2"]
+blue.initialNO= Nutrients[grep("Blue_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..2"]
+blue.finalNO=Nutrients[grep("Blue_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..2"]
+green.initialNO= Nutrients[grep("Green_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..2"]
+green.finalNO= Nutrients[grep("Green_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..2"]
+yellow.initialNO= Nutrients[grep("Yellow_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..2"]
+yellow.finalNO= Nutrients[grep("Yellow_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..2"]
+
+#N by treatment
+#initial
+#final
+black.initialAmmonia= Nutrients[grep("Black_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+black.finalAmmonia=Nutrients[grep("Black_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+blue.initialAmmonia= Nutrients[grep("Blue_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+blue.finalAmmonia=Nutrients[grep("Blue_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+green.initialAmmonia= Nutrients[grep("Green_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+green.finalAmmonia= Nutrients[grep("Green_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+yellow.initialAmmonia= Nutrients[grep("Yellow_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+yellow.finalAmmonia= Nutrients[grep("Yellow_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+
+
+#Change (final - initial) in nutrient conc. by treatment type
+mean.BlackPhosphateChange = mean(black.finalPhosphate) - mean(black.initialPhosphate)
+mean.BlackAmmoniaChange = mean(black.finalAmmonia) - mean(black.initialAmmonia)
+mean.BlackNOChange = mean(black.finalOxygen) - mean(black.initialOxygen)
+
+  
+mean.GreenPhosphateChange = mean(green.finalPhosphate) - mean(green.initialPhosphate)
+mean.GreenAmmoniaChange = mean(green.finalAmmonia)- mean(green.initialAmmonia)
+mean.GreenNOChange = mean(green.finalOxygen) - mean(green.initialOxygen)  
+  
+
+mean.BluePhosphateChange = mean(blue.finalPhosphate) - mean(blue.initialPhosphate)
+mean.BlueAmmoniaChange = mean(blue.finalAmmonia)- mean(blue.initialAmmonia)
+mean.BlueNOChange = mean(blue.finalOxygen) - mean(blue.initialOxygen) 
+
+
+mean.YellowPhosphateChange = mean(yellow.finalPhosphate) - mean(yellow.initialPhosphate)
+mean.YellowAmmoniaChange = mean(yellow.finalAmmonia)- mean(yellow.initialAmmonia)
+mean.YellowNOChange = mean(yellow.finalOxygen) - mean(yellow.initialOxygen) 
+
+
+#Oxygen Initial Data: 
+initialOxygen = O2FluxRaw["DO.mg.L.initial"]
+black.initialOxygen = mean(O2FluxRaw[grep("BLACK", O2FluxRaw$treatment),"DO.mg.L.initial"])
+blue.initialOxygen = mean(O2FluxRaw[grep("BLUE", O2FluxRaw$treatment),"DO.mg.L.initial"])
+yellow.initialOxygen = mean(O2FluxRaw[grep("YELLOW", O2FluxRaw$treatment),"DO.mg.L.initial"])
+green.initialOxygen = mean(O2FluxRaw[grep("GREEN", O2FluxRaw$treatment),"DO.mg.L.initial"])
+
+
+
+#Oxygen Final Data:
+finalOxygen = O2FluxRaw["DO.mg.L.final"]
+black.finalOxygen = mean(O2FluxRaw[grep("BLACK",O2FluxRaw$treatment),"DO.mg.L.final"])
+blue.finalOxygen = mean(O2FluxRaw[grep("BLUE",O2FluxRaw$treatment),"DO.mg.L.final"])
+yellow.finalOxygen = mean(O2FluxRaw[grep("YELLOW",O2FluxRaw$treatment),"DO.mg.L.final"])
+green.finalOxygen = mean(O2FluxRaw[grep("GREEN",O2FluxRaw$treatment),"DO.mg.L.final"])
+
+
+
+
+#Oxygen Initial/Final Graph
+OxygenData <- data.frame(treatments=rep(c("black","blue","yellow","green"), each=2), 
+                             grouping=rep(c("Initial Oxygen", "Final Oxygen"), 2), 
+                             data=c(mean(black.initialOxygen), mean(black.finalOxygen), mean(blue.initialOxygen), mean(blue.finalOxygen),
+                                    mean(yellow.initialOxygen), mean(yellow.finalOxygen), mean(green.initialOxygen), mean(green.finalOxygen)))
+# Oxygen Change by Treatment 
+OxygenBarchart <- barchart(data~treatments, groups=grouping, OxygenData, auto.key = list(columns = 2), xlab = "Treatment", ylab = "Oxygen(mg/L)")
+OxygenBarchart
+
+
+
+
+
+
+#Grouped Bar plot of change in richness by treatment (Start and End)
+RichnessChange <- data.frame(treatments=rep(c("black","blue","yellow","green"), each=2), 
+                             grouping=rep(c("Start Richness", "End Richness"), 2), 
+                             data=c(mean(black.StartRichness), mean(black.EndRichness), mean(blue.StartRichness), mean(blue.EndRichness),
+                                    mean(yellow.StartRichness), mean(yellow.EndRichness), mean(green.StartRichness), mean(green.EndRichness)))
+#Change in Richness
+barchart(data~treatments, groups=grouping, RichnessChange, auto.key = list(columns = 2), xlab = "Treatment", ylab = "Richness")
+
+
+#Phosphate
+#Phosphate Initial Data: 
+black.initialPhosphate=Nutrients[grep("Black_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+blue.initialPhosphate= Nutrients[grep("Blue_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+green.initialPhosphate= Nutrients[grep("Green_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+yellow.initialPhosphate= Nutrients[grep("Yellow_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+
+
+#Phosphate Final Data:
+black.finalPhosphate=Nutrients[grep("Black_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+blue.finalPhosphate=Nutrients[grep("Blue_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+green.finalPhosphate= Nutrients[grep("Green_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+yellow.finalPhosphate= Nutrients[grep("Yellow_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"]
+
+
+#Phosphate Initial/Final Graph
+PhosphateData <- data.frame(treatments=rep(c("black","blue","yellow","green"), each=2), 
+                         grouping=rep(c("Initial Phosphate", "Final Phosphate"), 2), 
+                         data=c(mean(black.initialPhosphate), mean(black.finalPhosphate), mean(blue.initialPhosphate), mean(blue.finalPhosphate),
+                                mean(yellow.initialPhosphate), mean(yellow.finalPhosphate), mean(green.initialPhosphate), mean(green.finalPhosphate)))
+# Phosphate Change by Treatment 
+barchart(data~treatments, groups=grouping, PhosphateData, auto.key = list(columns = 2), xlab = "Treatment", ylab = "Phosphate(µg.L^-1)")
+
+
+prepanel=function(y, stderr, subscripts=subscripts, ...){
+  uy <- as.numeric(y+stderr[subscripts])
+  ly <- as.numeric(y-stderr[subscripts])
+  list(ylim=range(y,uy,ly, finite=TRUE))
+}
+panel.err=function(x, y, subscripts, groups, stderr, box.ratio, ...){
+  d <- 1/(nlevels(groups)+nlevels(groups)/box.ratio)
+  g <- (as.numeric(groups[subscripts])-1); g <- (g-median(g))*d
+  panel.arrows(as.numeric(x)+g,y-stderr[subscripts], as.numeric(x)+g, y+stderr[subscripts],
+               code=3,angle=90, length=0.025)
+}
+barchart(data~treatments,groups=grouping,PhosphateData,
+         stderr=PhosphateData$stderr,
+         ylab="Phosphate(µg.L^-1)",
+         xlab="Treatment",
+         ylim=-115:50,
+         auto.key=list(points=FALSE,rectangles=TRUE,columns=2),
+         scales=list(alternating=FALSE,
+                     tick.number=7,
+                     tck=c(-1,0)),
+         prepanel=prepanel,
+         panel=function(x, y, subscripts, groups, stderr, box.ratio, ...){
+           panel.barchart(x, y, subscripts=subscripts,
+                          groups=groups, box.ratio=box.ratio,origin=0, ...)
+           panel.abline(h=0,col="black",...)
+           panel.err(x, y, subscripts=subscripts,
+                     groups=groups, box.ratio=box.ratio,stderr=data$stderr)
+         }
+)
+
+
+#Ammonia
+#Ammonia Initial Data: 
+black.initialAmmonia= Nutrients[grep("Black_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+blue.initialAmmonia= Nutrients[grep("Blue_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+green.initialAmmonia= Nutrients[grep("Green_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+yellow.initialAmmonia= Nutrients[grep("Yellow_Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+
+#Ammonia Final Data:
+black.finalAmmonia=Nutrients[grep("Black_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+blue.finalAmmonia=Nutrients[grep("Blue_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+green.finalAmmonia= Nutrients[grep("Green_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+yellow.finalAmmonia= Nutrients[grep("Yellow_Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."]
+
+
+
+#Ammonia Initial/Final Graph
+AmmoniaData <- data.frame(treatments=rep(c("black","blue","yellow","green"), each=2), 
+                         grouping=rep(c("Initial Ammonia", "Final Ammonia"), 2), 
+                         data=c(mean(black.initialAmmonia), mean(black.finalAmmonia), mean(blue.initialAmmonia), mean(blue.finalAmmonia),
+                                mean(yellow.initialAmmonia), mean(yellow.finalAmmonia), mean(green.initialAmmonia), mean(green.finalAmmonia)))
+# Ammonia Change by Treatment 
+Ammoniachart <- barchart(data~treatments, groups=grouping, AmmoniaData, auto.key = list(columns = 2), xlab = "Treatment", ylab = "Ammonia(µg.L^-1)")
+
+
+#Light(Initial and Final)/Dark(Initial and Final) Phosphate 
+# InitialLightPhosphate= mean(Nutrients[grep("Light&&Initial", Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"])
+# FinalLightPhosphate =  mean(Nutrients[grep("Final&Light",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"])
+# InitialDarkPhosphate= mean(Nutrients[grep("Initial&Dark",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"])
+# FinalDarkPhosphate =  mean(Nutrients[grep("Final&Dark",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1..1"])
+# 
+# Phosphate = c(InitialPhosphate,FinalAmmonia)
+# 
+# PhosphatePlot <- barplot(Phosphate, axes=FALSE, axisnames = FALSE, ylim=c(0,100),main="Phosphate Initi", xlab="treatment", ylab="diversity")
+# axis(1, labels =c("Initial, Final"), at = PhosphatePlot)
+# axis(2, at = seq(0,2, by =0.1))
+# box()
+# 
+# 
+# #Light(Initial and Final)/Dark(Initial and Final) Ammonia
+# InitialAmmonia= mean(Nutrients[grep("Initial",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."])
+# FinalAmmonia =  mean(Nutrients[grep("Final",Nutrients$Sample.ID),"Peak.Concentration..µg.L.1."])
+# Ammonia = c(InitialAmmonia,FinalAmmonia)
+# 
+# AmmoniaPlot <- 
+#Phosphate v Richness v Treatment
+#Ammonia v Richness v Treatment
+#Oxygen Flux v Richness v Treatment 
+
+
+
+#Data Analysis
+
+
+#Shapiro
+shapiro.test(StartRichness)
+shapiro.test(EndRichness)
+shapiro.test(RichnessChange$data)
+shapiro.test(PhosphateData)
+shapiro.test(AmmoniaData$data)
+shapiro.test(OxygenData$data)
+
+
+#Levene
+leveneTest(RichnessChange$data,RichnessChange$treatments)
+leveneTest(PhosphateData$data,PhosphateData$treatments)
+leveneTest(AmmoniaData$data,AmmoniaData$treatments)
+leveneTest(OxygenData$data,OxygenData$treatments)
+
+#ANOVA
+
+RichnessAnova <-lm(RichnessChange$data ~ RichnessChange$treatments)
+PhosphateAnova <-lm(PhosphateData$data ~ PhosphateData$treatments)
+AmmoniaAnova <-lm(AmmoniaData$data ~ AmmoniaData$treatments)
+OxygenAnova <- lm(OxygenData$data ~ OxygenData$treatments)
+RichnessvPhosphate <- lm(RichnessChange$data~PhosphateData$data)
+RichnessvAmmonia <- lm(RichnessChange$data~AmmoniaData$data)
+RichnessvOxygen <- lm(RichnessChange$data~OxygenData$data)
+
+summary(RichnessvPhosphate)
+summary(RichnessvAmmonia)
+summary(RichnessvOxygen)
+
+summary(RichnessAnova)
+summary(PhosphateAnova)
+summary(AmmoniaAnova)
+summary(OxygenAnova)
+
+#Data For Graphs
+RichnessChange
+AmmoniaData
+OxygenData
+
+
+
+#Multivariate Analysis
+

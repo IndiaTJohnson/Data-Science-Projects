@@ -1,0 +1,86 @@
+setwd("//student.otago.ac.nz/mds/Profiles-V2/j/johin248/RedirectedFolders/Desktop")
+FaunaData<-read.csv("macrofauna.csv", header=TRUE)
+FaunaData
+attach(FaunaData)
+head(FaunaData)
+hist(Austrovenus.stutchburyi)
+library(vegan)
+richness<-specnumber(FaunaData[,-1])
+richness
+black.richness=richness[treatment=="black"]
+black.richness
+blue.richness=richness[treatment=="blue"]
+blue.richness
+green.richness=richness[treatment=="green"]
+green.richness
+yellow.richness=richness[treatment=="yellow"]
+yellow.richness
+
+mean.richness=c(mean(black.richness),mean(blue.richness),mean(green.richness),mean(yellow.richness))
+mean.richness
+mp<- barplot(mean.richness, axes=FALSE, axisnames = FALSE, ylim=c(0,10),main="Richness", xlab="treatment", ylab="species richness")
+axis(1, labels =c("black","blue","green","yellow"), at = mp)
+axis(2, at = seq(0,10, by =1))
+box()
+library(plotrix)
+std.error(black.richness)
+std.error(blue.richness)
+std.error(green.richness)
+std.error(yellow.richness)
+SE<-matrix(c(std.error(black.richness), std.error(blue.richness), std.error(green.richness), std.error(yellow.richness)), 2)
+segments(mp, mean.richness-SE, mp, mean.richness +SE, lwd =2)
+segments(mp-0.1, mean.richness-SE, mp+0.1, mean.richness -SE, lwd=2)
+segments(mp-0.1, mean.richness+SE, mp+0.1, mean.richness +SE, lwd=2)
+library(car)
+
+leveneTest(richness, treatment)
+shapiro.test(richness)
+supermodel<-lm(richness ~ treatment)
+summary(supermodel)
+Anova(supermodel)
+plot(supermodel)
+
+H<-diversity(FaunaData[,-1])
+black.H=H[treatment=="black"]
+blue.H=H[treatment=="blue"]
+green.H=H[treatment=="green"]
+yellow.H=H[treatment=="yellow"]
+
+mean.H=c(mean(black.H),mean(blue.H),mean(green.H),mean(yellow.H))
+mean.H
+
+mp<- barplot(mean.H, axes=FALSE, axisnames = FALSE, ylim=c(0,2),main="Diversity", xlab="treatment", ylab="diversity")
+axis(1, labels =c("black","blue","green","yellow"), at = mp)
+axis(2, at = seq(0,2, by =0.1))
+box()
+
+std.error(black.H)
+std.error(blue.H)
+std.error(green.H)
+std.error(yellow.H)
+
+SE<-matrix(c(std.error(black.H), std.error(blue.H), std.error(green.H), std.error(yellow.H)), 2)
+segments(mp, mean.H-SE, mp, mean.H +SE, lwd =2)
+segments(mp-0.1, mean.H-SE, mp+0.1, mean.H -SE, lwd=2)
+segments(mp-0.1, mean.H+SE, mp+0.1, mean.H +SE, lwd=2)
+
+logH<-log(H)
+leveneTest(logH, treatment)
+shapiro.test(logH)
+supermodel1<-lm(logH ~ treatment)
+summary(supermodel1)
+Anova(supermodel1)
+plot(supermodel1)
+
+dist.matrix<-vegdist(FaunaData[,-1])
+dist.matrix
+library(MASS)
+mds.data<-metaMDS(dist.matrix)
+mds.data
+
+ordiplot(mds.data, choices = c(1,2), type="p")
+ordiplot(mds.data, choices = c(1,2), type = "t")
+
+stressplot(mds.data, dist.matrix)
+mds.stats<- metaMDS((FaunaData[,-1]), trace = F)
+mds.stats

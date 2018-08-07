@@ -1,0 +1,27 @@
+,Treatment,O2.flux
+block 1,black,1.14
+block 1,blue,1.18
+block 1,green,1.1
+block 1,yellow,0.12
+block 2,black,1.46
+block 2,blue,-1.03
+block 2,green,1.53
+block 3,blue,0.12
+block 3,green,-1.08
+block 3,yellow,-0.42
+block 4,black,0.02
+block 4,blue,0.97
+block 4,green,-2.67
+block 4,yellow,0.82
+block 5,black,0.5
+block 5,blue,-0.28
+block 5,green,0.24
+block 5,yellow,-1.1
+block 6,black,1.07
+block 6,blue,0.67
+block 6,green,-1.15
+block 6,yellow,1.62
+block 7,black,2.44
+block 7,blue,-1.06
+block 7,green,-0.41
+block 7,yellow,0.88
